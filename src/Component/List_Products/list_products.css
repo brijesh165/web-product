@@ -1,0 +1,22 @@
+.hidden {
+    display: none
+}
+
+.createProductButton {
+    width: fit-content;
+}
+
+.createProduct {
+    display: flex;
+    flex-direction: column;
+}
+
+.createProductForm {
+    margin: 25px auto;
+    width: 100%;    
+}
+
+.formButtons {
+    display: flex;
+    justify-content: flex-end;
+}
