@@ -1,5 +1,7 @@
 import React from 'react';
 
+import axios from 'axios';
+import FormData from 'form-data';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -24,6 +26,7 @@ class ListProducts extends React.Component {
                 unitprice: "",
                 productimage: null
             }
+
         }
 
         this._handleCreateProduct = this._handleCreateProduct.bind(this);
@@ -55,10 +58,11 @@ class ListProducts extends React.Component {
         const { name, value } = event.target;
 
         if (name === "productimage") {
+            console.log(event.target.files[0])
             this.setState({
                 form: {
                     ...this.state.form,
-                    [name]: event.target.files[0]
+                    productimage: event.target.files[0]
                 }
             })
         } else {
@@ -73,7 +77,21 @@ class ListProducts extends React.Component {
 
     _onFormSubmit(event) {
         event.preventDefault();
-        console.log("Form: ", this.state.form)
+        console.log("Image: ", this.state.productimage)
+        let data = new FormData();
+        data.append('product_name', this.state.productname);
+        data.append('product_description', this.state.productdescription);
+        data.append('quantity', this.state.quantity);
+        data.append('unitprice', this.state.unitprice);
+        data.append('image', this.state.productimage, this.state.productimage.name);
+
+        axios.post("http://localhost:3001/create-product", data)
+            .then((data) => {
+                console.log("Data: ", data);
+            })
+            .catch((error) => {
+                console.log("Error: ", error)
+            })
     }
 
     _onCancelClick(event) {
