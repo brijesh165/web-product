@@ -1,0 +1,4 @@
+1. npm install
+2. start mongodb server to connect with database
+3. uncomment line no 47, 48(it will create users in database)
+4. node app.js (make sure app is runnig on port 3001)

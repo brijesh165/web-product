@@ -42,12 +42,14 @@ class ListProducts extends React.Component {
         this._handleDeleteItem = this._handleDeleteItem.bind(this);
     }
 
+    // used to open/close model
     _handleCreateProduct() {
         this.setState({
             createProductForm: !this.state.createProductForm
         })
     }
 
+    // update state of form and set it to initial state
     _onResetForm() {
         this.setState({
             form: {
@@ -60,6 +62,7 @@ class ListProducts extends React.Component {
         })
     }
 
+    // called when user enter information in form input
     _handleOnChange(event) {
         event.preventDefault();
         const { name, value } = event.target;
@@ -81,6 +84,7 @@ class ListProducts extends React.Component {
         }
     }
 
+    // called when user submit form to create product
     _onFormSubmit(event) {
         event.preventDefault();
         if (this.state.isEdit) {
@@ -89,17 +93,18 @@ class ListProducts extends React.Component {
                 form: this.state.form
             }
             this.props.onEdit(params)
+            this.setState({
+                createProductForm: !this.state.createProductForm
+            })
         } else {
             this.props.onCreate(this.state.form);
-        }
-
-        if (!this.props._loading) {
             this.setState({
                 createProductForm: !this.state.createProductForm
             })
         }
     }
 
+    // called when user clicks on cancel button
     _onCancelClick(event) {
         event.preventDefault();
         this.setState({
@@ -110,6 +115,7 @@ class ListProducts extends React.Component {
         this._onResetForm();
     }
 
+    // called when user clicks on image
     _handleImageClick(item) {
         this.props.history.push({
             pathname: "/product-details",
@@ -117,6 +123,7 @@ class ListProducts extends React.Component {
         })
     }
 
+    // called when user clicks on add cart button
     _handleAddCart(item) {
         if (localStorage.getItem('cartItems')) {
             const previousCartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -173,7 +180,6 @@ class ListProducts extends React.Component {
     }
 
     _handleEditItem(item) {
-        console.log("Edit Item: ", item)
         this.setState({
             createProductForm: true,
             isEdit: true,
@@ -188,9 +194,10 @@ class ListProducts extends React.Component {
         })
     }
 
+    // called when user clicks on delete button
     _handleDeleteItem(id, imagepath) {
         const deleteParams = {
-            id: id,
+            product_id: id,
             imagepath: imagepath
         }
         this.props.onDelete(deleteParams);

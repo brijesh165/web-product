@@ -27,6 +27,7 @@ class OrderCart extends React.Component {
     }
 
     componentDidMount() {
+        // get cart item from local storage and set it into the state
         if (localStorage.getItem('cartItems')) {
             const cartItems = JSON.parse(localStorage.getItem('cartItems'));
             this.setState({
@@ -35,10 +36,10 @@ class OrderCart extends React.Component {
         }
     }
 
+    // called when user change the quantity
     _handleQuantityChange(e, item, quantity) {
         const currentValue = e.target.value;
         if (currentValue - quantity == 1) {
-            console.log('Add: ', currentValue - quantity, item)
             const allItems = JSON.parse(localStorage.getItem('cartItems'));
             const itemExist = allItems.find((product) => product.item._id === item._id);
             if (itemExist) {
@@ -49,7 +50,6 @@ class OrderCart extends React.Component {
                 cartItems: allItems
             })
         } else if (currentValue - quantity == -1) {
-            console.log('Subtract: ', currentValue - quantity)
             const allItems = JSON.parse(localStorage.getItem('cartItems'));
             const itemExist = allItems.find((product) => product.item._id === item._id);
             if (itemExist) {
@@ -62,6 +62,7 @@ class OrderCart extends React.Component {
         }
     }
 
+    // called when user click on remove button
     _handleRemoveItemFromCart(id) {
         const allItemsFromCart = JSON.parse(localStorage.getItem('cartItems'));
         const afterRemoveItemFromCart = allItemsFromCart.filter((product) => product.item._id !== id);
@@ -71,15 +72,18 @@ class OrderCart extends React.Component {
         })
     }
 
+    // called when user click on countinue shopping button
     _handleContinueShoppingCart() {
         this.props.history.push({ pathname: "/" })
     }
 
+    // called when user click on checkout
     _handleCheckout() {
         this.setState({
             checkoutSuccessModal: true
         })
         setTimeout(() => {
+            localStorage.removeItem("cartItems");
             this.setState({
                 checkoutSuccessModal: false
             })
@@ -87,7 +91,6 @@ class OrderCart extends React.Component {
                 pathname: "/",
             })
         }, 2000);
-
 
     }
 
@@ -110,7 +113,6 @@ class OrderCart extends React.Component {
                             </thead>
                             <tbody>
                                 {this.state.cartItems.map((item) => {
-                                    console.log("Item: ", item)
                                     return (
                                         <tr key={item._id}>
                                             <td width="30%">

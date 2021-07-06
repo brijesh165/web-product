@@ -9,6 +9,7 @@ const ProductDetails = (props) => {
     const [item] = useState(location.state);
     const history = useHistory();
 
+    // called when user click on add to cart button
     const _handleAddToCart = () => {
         if (localStorage.getItem('cartItems')) {
             const previousCartItems = JSON.parse(localStorage.getItem('cartItems'));

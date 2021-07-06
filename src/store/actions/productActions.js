@@ -95,6 +95,7 @@ export function oncreateproduct(params) {
         data.append('unitprice', params.form.unitprice);
         data.append('image', params.form.productimage, params.form.productimage.name);
 
+        // api end point for create product
         axios.post(`${api}/create-product`, data, config)
             .then((data) => {
                 dispatch(createProductSuccess(data.data.product))
@@ -110,9 +111,9 @@ export function onFetchProducts() {
     return dispatch => {
         dispatch(fetchProductStart());
 
+        // api end point to get the product
         axios.post(`${api}/fetch-products`)
             .then((data) => {
-                console.log("Fetch Product Success: ", data);
                 dispatch(fetchProductSuccess(data.data.products))
             })
             .catch((error) => {
@@ -133,6 +134,8 @@ export function onEditproduct(params) {
         data.append('quantity', params.form.quantity);
         data.append('unitprice', params.form.unitprice);
         data.append('image', params.form.productimage, params.form.productimage.name);
+
+        // api end point to edit the product
         axios.post(`${api}/edit-product`, data, config)
             .then((data) => {
                 dispatch(editProductSuccess(data.data.product))
@@ -147,7 +150,7 @@ export function onEditproduct(params) {
 export function onDeleteproduct(params) {
     return dispatch => {
         dispatch(deleteProductStart());
-        console.log("Delete Product: ", params)
+        // api end point to delete the product
         axios.post(`${api}/delete-product`, params)
             .then((data) => {
                 dispatch(deleteProductSuccess(data.data.id))
